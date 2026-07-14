@@ -1,0 +1,15 @@
+# Compiled objects
+*.o
+*.obj
+
+# Generated executables
+server
+server.exe
+
+# The existing client.exe is intentionally tracked until client.c is restored.
+
+# Debug and editor files
+*.dSYM/
+.vscode/
+.idea/
+.DS_Store

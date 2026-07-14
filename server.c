@@ -21,7 +21,6 @@
     #include <unistd.h>
     #include <pthread.h>
     #define CLOSESOCKET close
-    #define SOCKET int
     #define INVALID_SOCKET (-1)
     #define SOCKET_ERROR (-1)
     typedef int SOCKET;
@@ -463,6 +462,11 @@ DWORD WINAPI timeout_thread(LPVOID lpParam) {
  */
 void* timeout_thread(void* arg) {
 #endif
+#ifdef _WIN32
+    (void)lpParam;
+#else
+    (void)arg;
+#endif
     while (1) {
         sleep(1);  // 每秒检查一次
         
@@ -545,10 +549,16 @@ void* timeout_thread(void* arg) {
  * 主函数：启动服务器，处理游戏逻辑
  */
 int main() {
+#ifdef _WIN32
     WSADATA wsa;
+#endif
     SOCKET server_fd, new_sock;
     struct sockaddr_in address;
+#ifdef _WIN32
     int addrlen = sizeof(address);
+#else
+    socklen_t addrlen = sizeof(address);
+#endif
     
 #ifdef _WIN32
     // Windows 初始化 Winsock
